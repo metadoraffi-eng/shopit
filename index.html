@@ -210,7 +210,6 @@
     <h2 id="title">Almost there</h2>
     <p id="message">This quick step opens Amazon in your browser so the link works smoothly.</p>
     <button class="btn" id="btnBrowser">Continue to Amazon</button>
-    <button class="btn secondary" id="btnApp">Open in Amazon App</button>
     <div class="tip" id="tip">Tip: If you stay inside Reddit, use the menu to open in your browser.</div>
     <small class="debug" id="dbg"></small>
   </div>
@@ -300,7 +299,6 @@
     
     // Get DOM elements
     const btnBrowser = document.getElementById("btnBrowser");
-    const btnApp = document.getElementById("btnApp");
     const dbg = document.getElementById("dbg");
     const title = document.getElementById("title");
     const message = document.getElementById("message");
@@ -356,39 +354,10 @@
       }
     }
 
-    // Open Amazon app directly (Android intent / iOS universal link)
-    function openInApp() {
-      if (isAndroid) {
-        const url = new URL(target);
-        const intent = `intent://${url.host}${url.pathname}${url.search}#Intent;scheme=${url.protocol.replace(":", "")};package=com.amazon.mShop.android.shopping;end`;
-        title.textContent = "Opening Amazon App…";
-        message.textContent = "Launching the Amazon app on your Android device.";
-        const fallbackTimer = setTimeout(() => {
-          window.location.href = target;
-        }, 1500);
-
-        document.addEventListener("visibilitychange", () => {
-          if (document.visibilityState === "hidden") {
-            clearTimeout(fallbackTimer);
-          }
-        }, { once: true });
-
-        window.location.href = intent;
-        return;
-      }
-      title.textContent = "Opening Amazon…";
-      message.textContent = "Opening in Amazon app or browser.";
-      window.location.href = target;
-    }
-
     // Button click handler
     btnBrowser.addEventListener("click", function(e) {
       e.preventDefault();
       openInBrowser();
-    });
-    btnApp.addEventListener("click", function(e) {
-      e.preventDefault();
-      openInApp();
     });
   </script>
 </body>
