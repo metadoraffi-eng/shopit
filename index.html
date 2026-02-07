@@ -330,25 +330,25 @@
     // Open in external browser
     function openInBrowser() {
       if (isAndroid) {
-        // Android: try to open in Chrome (external browser)
+        // Android: open default external browser (avoid in-app webview)
         const url = new URL(target);
-        const intent = `intent://${url.host}${url.pathname}${url.search}#Intent;scheme=${url.protocol.replace(":", "")};package=com.android.chrome;end`;
+        const intent = `intent://${url.host}${url.pathname}${url.search}#Intent;scheme=${url.protocol.replace(":", "")};action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;S.browser_fallback_url=${encodeURIComponent(target)};end`;
 
         title.textContent = "Opening your browser…";
-        message.textContent = "If nothing happens, use the menu and tap “Open in browser”.";
+        message.textContent = "If it stays in Reddit, tap ⋮ and choose “Open in browser”.";
 
-        const fallbackTimer = setTimeout(() => {
-          window.location.href = target;
-        }, 1500);
+        // Try intent in a new tab first; then fall back to intent navigation.
+        const opened = window.open(intent, "_blank", "noopener");
+        if (!opened) {
+          window.location.href = intent;
+        }
 
-        document.addEventListener("visibilitychange", () => {
-          if (document.visibilityState === "hidden") {
-            clearTimeout(fallbackTimer);
+        // If still visible, try a direct new-tab open as a last resort.
+        setTimeout(() => {
+          if (document.visibilityState === "visible") {
+            window.open(target, "_blank", "noopener");
           }
-        }, { once: true });
-
-        window.location.href = intent;
-        
+        }, 800);
       } else if (isIOS) {
         // iOS: cannot force external Safari from in-app browsers
         title.textContent = "Open in Safari";
