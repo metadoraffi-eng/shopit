@@ -225,7 +225,28 @@
   <script>
     // Get URL parameter
     const params = new URLSearchParams(location.search);
-    const rawUrl = params.get("url");
+    const rawUrlParam = params.get("url");
+
+    function getRawUrlFromQueryRemainder() {
+      const search = location.search || "";
+      const marker = "url=";
+      const idx = search.indexOf(marker);
+      if (idx === -1) return null;
+      let tail = search.slice(idx + marker.length);
+      const hashIdx = tail.indexOf("#");
+      if (hashIdx !== -1) tail = tail.slice(0, hashIdx);
+      const debugIdx = tail.indexOf("&debug=");
+      if (debugIdx !== -1) tail = tail.slice(0, debugIdx);
+      return decodeURIComponent(tail.replace(/\+/g, "%20"));
+    }
+
+    let rawUrl = rawUrlParam;
+    if (rawUrlParam && params.size > 1) {
+      const remainder = getRawUrlFromQueryRemainder();
+      if (remainder && /^https?:\/\//i.test(remainder)) {
+        rawUrl = remainder;
+      }
+    }
     
     // Fallback default URL (no affiliate tag)
     const fallbackDefault = "https://www.amazon.com/";
