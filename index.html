@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Opening Amazon…</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Open in Browser</title>
   <style>
     * {
       margin: 0;
@@ -46,28 +47,36 @@
       line-height: 1.5;
     }
     
-    button {
+    .btn {
       font-size: 18px;
       padding: 16px 32px;
       width: 100%;
       max-width: 360px;
       background: white;
-      color: #667eea;
+      color: #4550b5;
       border: none;
       border-radius: 12px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      margin: 6px 0;
     }
     
-    button:hover {
+    .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     }
     
-    button:active {
+    .btn:active {
       transform: translateY(0);
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: none;
     }
     
     .spinner {
@@ -106,12 +115,20 @@
 <body>
   <div class="container">
     <div class="spinner"></div>
-    <h2 id="title">Opening Amazon…</h2>
-    <p id="message">If nothing happens, tap the button below.</p>
-    <button id="btn">Open Amazon</button>
+    <h2 id="title">Open in your browser</h2>
+    <p id="message">Reddit’s in-app browser often blocks automatic redirects. Tap below to open in your default browser.</p>
+    <button class="btn" id="btnBrowser">Open in Browser</button>
+    <button class="btn secondary" id="btnApp">Open in Amazon App</button>
+    <button class="btn secondary" id="btnCopy">Copy Link</button>
     <div class="device-info" id="device"></div>
     <small id="dbg"></small>
   </div>
+  <noscript>
+    <p style="color:#fff; text-align:center; margin-top:20px;">
+      JavaScript is required. Use this link:
+      <a href="https://www.amazon.com/" style="color:#fff; text-decoration:underline;">Open Amazon</a>
+    </p>
+  </noscript>
 
   <script>
     // Get URL parameter
@@ -124,26 +141,48 @@
     // Fallback default URL
     const fallbackDefault = `https://www.amazon.com/?tag=${AFFILIATE_TAG}`;
     
-    // Decode and validate URL
+    // Allowed Amazon domains (root domains; subdomains allowed)
+    const allowedRoots = [
+      "amazon.com",
+      "amazon.co.uk",
+      "amazon.de",
+      "amazon.fr",
+      "amazon.it",
+      "amazon.es",
+      "amazon.ca",
+      "amazon.com.mx",
+      "amazon.com.br",
+      "amazon.in",
+      "amazon.cn",
+      "amazon.co.jp",
+      "amazon.com.au"
+    ];
+    const allowedExact = new Set(["amzn.to"]);
+
+    function isAllowedHost(hostname) {
+      const host = hostname.toLowerCase();
+      if (allowedExact.has(host)) return true;
+      return allowedRoots.some(root => host === root || host.endsWith(`.${root}`));
+    }
+
+    // Validate and normalize URL
     let target = fallbackDefault;
     try {
       if (rawUrl) {
-        target = decodeURIComponent(rawUrl);
-        
-        // Ensure the URL has the affiliate tag
-        const url = new URL(target);
-        if (!url.searchParams.has('tag')) {
-          url.searchParams.set('tag', AFFILIATE_TAG);
-          target = url.toString();
+        const url = new URL(rawUrl);
+        if (url.protocol !== "http:" && url.protocol !== "https:") {
+          throw new Error("Invalid protocol");
         }
+        if (!isAllowedHost(url.hostname)) {
+          throw new Error("Host not allowed");
+        }
+        if (!url.searchParams.has("tag")) {
+          url.searchParams.set("tag", AFFILIATE_TAG);
+        }
+        target = url.toString();
       }
     } catch (e) {
-      console.error('URL parsing error:', e);
-      target = fallbackDefault;
-    }
-    
-    // Security: only allow Amazon URLs
-    if (!/^https?:\/\/(www\.)?amazon\.(com|co\.uk|de|fr|it|es|ca|com\.mx|com\.br|in|cn|co\.jp|com\.au)/i.test(target)) {
+      console.error("URL parsing error:", e);
       target = fallbackDefault;
     }
     
@@ -154,7 +193,9 @@
     const isMobile = isAndroid || isIOS;
     
     // Get DOM elements
-    const btn = document.getElementById("btn");
+    const btnBrowser = document.getElementById("btnBrowser");
+    const btnApp = document.getElementById("btnApp");
+    const btnCopy = document.getElementById("btnCopy");
     const dbg = document.getElementById("dbg");
     const deviceInfo = document.getElementById("device");
     const title = document.getElementById("title");
@@ -168,49 +209,92 @@
     else if (isIOS) deviceType = "iOS Device";
     deviceInfo.textContent = `Detected: ${deviceType}`;
     
-    // Redirect function
-    function openAmazon() {
+    // Open in external browser
+    function openInBrowser() {
       if (isAndroid) {
-        // Android: Try to open in Amazon app
-        const intent = target.replace(/^https?:\/\//i, "intent://") +
-          "#Intent;scheme=https;package=com.amazon.mShop.android.shopping;end";
-        
-        title.textContent = "Opening Amazon App…";
-        message.textContent = "Launching the Amazon app on your Android device.";
-        
-        // Try app first
-        window.location.href = intent;
-        
-        // Fallback to browser after short delay
-        setTimeout(() => {
+        // Android: try to open in Chrome (external browser)
+        const url = new URL(target);
+        const intent = `intent://${url.host}${url.pathname}${url.search}#Intent;scheme=${url.protocol.replace(":", "")};package=com.android.chrome;end`;
+
+        title.textContent = "Opening your browser…";
+        message.textContent = "If nothing happens, use the menu and tap “Open in browser”.";
+
+        const fallbackTimer = setTimeout(() => {
           window.location.href = target;
         }, 1500);
+
+        document.addEventListener("visibilitychange", () => {
+          if (document.visibilityState === "hidden") {
+            clearTimeout(fallbackTimer);
+          }
+        }, { once: true });
+
+        window.location.href = intent;
         
       } else if (isIOS) {
-        // iOS: Use universal link (will open app if installed)
-        title.textContent = "Opening Amazon…";
-        message.textContent = "Opening in Amazon app or browser.";
-        
+        // iOS: cannot force external Safari from in-app browsers
+        title.textContent = "Open in Safari";
+        message.textContent = "Tap the share icon and choose “Open in Safari” if it stays in Reddit.";
         window.location.href = target;
         
       } else {
-        // Desktop: Just open the link
-        title.textContent = "Redirecting to Amazon…";
-        message.textContent = "Opening Amazon in your browser.";
-        
+        // Desktop
+        title.textContent = "Redirecting…";
+        message.textContent = "Opening in your browser.";
         window.location.href = target;
+      }
+    }
+
+    // Open Amazon app directly (Android intent / iOS universal link)
+    function openInApp() {
+      if (isAndroid) {
+        const url = new URL(target);
+        const intent = `intent://${url.host}${url.pathname}${url.search}#Intent;scheme=${url.protocol.replace(":", "")};package=com.amazon.mShop.android.shopping;end`;
+        title.textContent = "Opening Amazon App…";
+        message.textContent = "Launching the Amazon app on your Android device.";
+        const fallbackTimer = setTimeout(() => {
+          window.location.href = target;
+        }, 1500);
+
+        document.addEventListener("visibilitychange", () => {
+          if (document.visibilityState === "hidden") {
+            clearTimeout(fallbackTimer);
+          }
+        }, { once: true });
+
+        window.location.href = intent;
+        return;
+      }
+      title.textContent = "Opening Amazon…";
+      message.textContent = "Opening in Amazon app or browser.";
+      window.location.href = target;
+    }
+
+    async function copyLink() {
+      try {
+        await navigator.clipboard.writeText(target);
+        btnCopy.textContent = "Copied!";
+        setTimeout(() => (btnCopy.textContent = "Copy Link"), 1200);
+      } catch (e) {
+        console.error("Clipboard failed:", e);
+        btnCopy.textContent = "Copy failed";
+        setTimeout(() => (btnCopy.textContent = "Copy Link"), 1200);
       }
     }
     
     // Button click handler
-    btn.addEventListener("click", function(e) {
+    btnBrowser.addEventListener("click", function(e) {
       e.preventDefault();
-      openAmazon();
+      openInBrowser();
     });
-    
-    // Auto-redirect after short delay
-    // (Some platforms block instant redirects, so we wait a moment)
-    setTimeout(openAmazon, 200);
+    btnApp.addEventListener("click", function(e) {
+      e.preventDefault();
+      openInApp();
+    });
+    btnCopy.addEventListener("click", function(e) {
+      e.preventDefault();
+      copyLink();
+    });
   </script>
 </body>
 </html>
