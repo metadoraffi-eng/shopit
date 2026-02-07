@@ -435,9 +435,41 @@
     }
 
     // Button click handler
-    btnBrowser.addEventListener("click", function(e) {
+    btnBrowser.addEventListener("click", function (e) {
       e.preventDefault();
-      openInBrowser();
+
+      const go = () => openInBrowser();
+      let fired = false;
+
+      try {
+        if (typeof gtag === "function") {
+          gtag("event", "click_continue_amazon", {
+            event_category: "engagement",
+            event_label: "continue_to_amazon",
+            value: 1,
+            transport_type: "beacon",
+            event_callback: function () {
+              if (!fired) {
+                fired = true;
+                go();
+              }
+            }
+          });
+
+          setTimeout(function () {
+            if (!fired) {
+              fired = true;
+              go();
+            }
+          }, 250);
+
+          return;
+        }
+      } catch (err) {
+        console.warn("gtag event failed:", err);
+      }
+
+      go();
     });
   </script>
 </body>
