@@ -15,16 +15,19 @@
     gtag('config', 'G-Z9XWBVX34H');
   </script>
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Space+Grotesk:wght@400;500;600&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap");
 
     :root {
-      --ink: #1f2328;
-      --muted: #5a6270;
-      --accent: #1f4b99;
-      --accent-soft: #e6eefb;
-      --card: rgba(255, 255, 255, 0.92);
-      --outline: rgba(31, 75, 153, 0.2);
-      --shadow: 0 18px 50px rgba(20, 24, 40, 0.18);
+      --ink: #1d1d1f;
+      --muted: #5d616b;
+      --accent: #f25c44;
+      --accent-dark: #cc4a37;
+      --accent-soft: #ffe8e2;
+      --teal: #0f6b6a;
+      --card: #ffffff;
+      --surface: #fff7f2;
+      --outline: rgba(242, 92, 68, 0.18);
+      --shadow: 0 22px 50px rgba(36, 24, 18, 0.15);
     }
 
     * {
@@ -34,12 +37,12 @@
     }
     
     body {
-      font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
       padding: 28px 16px;
       text-align: center;
-      background: radial-gradient(1200px 600px at 20% -10%, #ffe3c9 0%, transparent 60%),
-        radial-gradient(900px 700px at 110% 10%, #c5d7ff 0%, transparent 65%),
-        linear-gradient(140deg, #fff2e5 0%, #f5f7ff 100%);
+      background: radial-gradient(1200px 600px at 10% -10%, #ffe0cc 0%, transparent 60%),
+        radial-gradient(900px 700px at 110% 10%, #d5f1ef 0%, transparent 65%),
+        linear-gradient(130deg, #fff4eb 0%, #f8fbff 100%);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -53,8 +56,8 @@
     body::after {
       content: "";
       position: absolute;
-      width: 280px;
-      height: 280px;
+      width: 320px;
+      height: 320px;
       border-radius: 50%;
       filter: blur(10px);
       opacity: 0.6;
@@ -62,42 +65,67 @@
     }
 
     body::before {
-      top: -120px;
-      left: -80px;
-      background: #ffd6b0;
+      top: -130px;
+      left: -90px;
+      background: #ffd2be;
     }
 
     body::after {
-      bottom: -120px;
-      right: -100px;
-      background: #cfe0ff;
+      bottom: -140px;
+      right: -120px;
+      background: #ccebe8;
     }
     
     .container {
-      max-width: 480px;
+      max-width: 520px;
       width: 100%;
       background: var(--card);
-      backdrop-filter: blur(10px);
-      padding: 40px 30px;
-      border-radius: 20px;
+      padding: 32px 30px 34px;
+      border-radius: 22px;
       box-shadow: var(--shadow);
-      border: 1px solid rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(242, 92, 68, 0.12);
       position: relative;
       z-index: 1;
+      text-align: left;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      font-family: "Bricolage Grotesque", "DM Sans", sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: 0.2px;
+    }
+
+    .pill {
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid rgba(15, 107, 106, 0.2);
+      color: var(--teal);
+      font-weight: 600;
     }
     
     h2 {
-      font-family: "Fraunces", "Space Grotesk", serif;
+      font-family: "Bricolage Grotesque", "DM Sans", sans-serif;
       font-size: 30px;
-      margin-bottom: 16px;
-      font-weight: 600;
+      margin-bottom: 12px;
+      font-weight: 700;
       color: var(--ink);
     }
     
     p {
       font-size: 16px;
       color: var(--muted);
-      margin-bottom: 24px;
+      margin-bottom: 18px;
       line-height: 1.5;
     }
 
@@ -105,37 +133,36 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 13px;
-      padding: 6px 12px;
-      border-radius: 999px;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 10px;
       background: var(--accent-soft);
-      color: var(--accent);
+      color: var(--accent-dark);
       border: 1px solid var(--outline);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       font-weight: 600;
+      width: fit-content;
     }
 
-    
     
     .btn {
       font-size: 18px;
       padding: 16px 32px;
       width: 100%;
-      max-width: 360px;
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
       color: white;
       border: none;
-      border-radius: 12px;
+      border-radius: 14px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 12px 22px rgba(31, 75, 153, 0.25);
-      margin: 6px 0;
+      box-shadow: 0 14px 28px rgba(242, 92, 68, 0.22);
+      margin: 6px 0 10px;
     }
     
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 14px 26px rgba(31, 75, 153, 0.32);
+      box-shadow: 0 18px 32px rgba(242, 92, 68, 0.26);
     }
     
     .btn:active {
@@ -144,27 +171,32 @@
 
     .btn.secondary {
       background: transparent;
-      color: var(--accent);
-      border: 1px solid var(--outline);
+      color: var(--accent-dark);
+      border: 1px solid rgba(242, 92, 68, 0.3);
       box-shadow: none;
     }
 
     .btn.ghost {
       background: transparent;
       color: var(--muted);
-      border: 1px dashed rgba(90, 98, 112, 0.4);
+      border: 1px dashed rgba(93, 97, 107, 0.4);
       box-shadow: none;
     }
     
     .spinner {
-      display: block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(31, 75, 153, 0.2);
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(15, 107, 106, 0.2);
       border-radius: 50%;
-      border-top-color: var(--accent);
+      border-top-color: var(--teal);
       animation: spin 0.8s linear infinite;
-      margin: 0 auto 16px;
+    }
+
+    .brand-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
     
     @keyframes spin {
@@ -177,10 +209,10 @@
       word-break: break-all;
       font-size: 12px;
       padding: 12px;
-      background: rgba(31, 75, 153, 0.08);
+      background: rgba(242, 92, 68, 0.08);
       border-radius: 8px;
       color: var(--muted);
-      border: 1px solid rgba(31, 75, 153, 0.15);
+      border: 1px solid rgba(242, 92, 68, 0.15);
     }
 
     .debug.is-visible {
@@ -191,16 +223,38 @@
       margin-top: 16px;
       font-size: 13px;
       color: var(--muted);
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(31, 75, 153, 0.12);
-      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(242, 92, 68, 0.12);
+      border-radius: 12px;
       padding: 10px 12px;
+    }
+
+    .note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    @media (max-width: 520px) {
+      .container {
+        padding: 28px 22px 30px;
+      }
+
+      h2 {
+        font-size: 26px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="spinner"></div>
+    <div class="header">
+      <div class="brand-wrap">
+        <div class="brand">ShopIt</div>
+        <span class="spinner" aria-hidden="true"></span>
+      </div>
+      <div class="pill">Retail handoff</div>
+    </div>
     <div class="badge">
       <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M17 10h-1V8a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2Zm-7-2a2 2 0 1 1 4 0v2h-4V8Z" fill="currentColor"/>
@@ -208,8 +262,9 @@
       Secure handoff
     </div>
     <h2 id="title">Almost there</h2>
-    <p id="message">This quick step opens Amazon in your browser so the link works smoothly.</p>
+    <p id="message">Opens Amazon in your browser.</p>
     <button class="btn" id="btnBrowser">Continue to Amazon</button>
+    <div class="note">We don't store your clicks. This just opens the destination.</div>
     <div class="tip" id="tip">Tip: If you stay inside Reddit, use the menu to open in your browser.</div>
     <small class="debug" id="dbg"></small>
   </div>
@@ -224,6 +279,7 @@
     // Get URL parameter
     const params = new URLSearchParams(location.search);
     const rawUrlParam = params.get("url");
+    const rawQuery = (location.search || "").replace(/^\?/, "");
 
     function getRawUrlFromQueryRemainder() {
       const search = location.search || "";
@@ -238,6 +294,20 @@
       return decodeURIComponent(tail.replace(/\+/g, "%20"));
     }
 
+    function extractSearchQuery() {
+      if (rawUrlParam) return null;
+      if (!rawQuery) return null;
+
+      if (params.has("q")) return params.get("q");
+      if (params.has("k")) return params.get("k");
+      if (params.has("query")) return params.get("query");
+
+      let cleaned = rawQuery.replace(/(^|&)debug=1(&|$)/, "$1").replace(/^&|&$/g, "");
+      if (!cleaned || cleaned.includes("=")) return null;
+      return decodeURIComponent(cleaned.replace(/\+/g, "%20"));
+    }
+
+    const searchQuery = extractSearchQuery();
     let rawUrl = rawUrlParam;
     if (rawUrlParam && params.size > 1) {
       const remainder = getRawUrlFromQueryRemainder();
@@ -292,6 +362,9 @@
           url.searchParams.set("ref", AFFILIATE_REF);
         }
         target = url.toString();
+      } else if (searchQuery) {
+        const encodedQuery = encodeURIComponent(searchQuery);
+        target = `https://www.amazon.com/s?k=${encodedQuery}&language=en_US&tag=${AFFILIATE_TAG}&ref=${AFFILIATE_REF}`;
       }
     } catch (e) {
       console.error("URL parsing error:", e);
@@ -316,7 +389,7 @@
       dbg.textContent = target;
       dbg.classList.add("is-visible");
     }
-    
+
     if (isIOS) {
       tip.textContent = "Tip: Tap the share icon and choose “Open in Safari”.";
     } else if (isAndroid) {
