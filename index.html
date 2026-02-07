@@ -246,8 +246,9 @@
       }
     }
     
-    // Fallback default URL (no affiliate tag)
-    const fallbackDefault = "https://www.amazon.com/";
+    const AFFILIATE_TAG = "bestdeals202f-20";
+    const AFFILIATE_REF = "as_li_ss_tl";
+    const fallbackDefault = `https://www.amazon.com/?tag=${AFFILIATE_TAG}&ref=${AFFILIATE_REF}`;
     
     // Allowed Amazon domains (root domains; subdomains allowed)
     const allowedRoots = [
@@ -283,6 +284,12 @@
         }
         if (!isAllowedHost(url.hostname)) {
           throw new Error("Host not allowed");
+        }
+        if (!url.searchParams.has("tag")) {
+          url.searchParams.set("tag", AFFILIATE_TAG);
+        }
+        if (!url.searchParams.has("ref")) {
+          url.searchParams.set("ref", AFFILIATE_REF);
         }
         target = url.toString();
       }
