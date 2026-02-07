@@ -211,7 +211,6 @@
     <p id="message">This quick step opens Amazon in your browser so the link works smoothly.</p>
     <button class="btn" id="btnBrowser">Continue to Amazon</button>
     <button class="btn secondary" id="btnApp">Open in Amazon App</button>
-    <button class="btn ghost" id="btnCopy">Copy Link</button>
     <div class="tip" id="tip">Tip: If you stay inside Reddit, use the menu to open in your browser.</div>
     <small class="debug" id="dbg"></small>
   </div>
@@ -302,7 +301,6 @@
     // Get DOM elements
     const btnBrowser = document.getElementById("btnBrowser");
     const btnApp = document.getElementById("btnApp");
-    const btnCopy = document.getElementById("btnCopy");
     const dbg = document.getElementById("dbg");
     const title = document.getElementById("title");
     const message = document.getElementById("message");
@@ -383,18 +381,6 @@
       window.location.href = target;
     }
 
-    async function copyLink() {
-      try {
-        await navigator.clipboard.writeText(target);
-        btnCopy.textContent = "Copied!";
-        setTimeout(() => (btnCopy.textContent = "Copy Link"), 1200);
-      } catch (e) {
-        console.error("Clipboard failed:", e);
-        btnCopy.textContent = "Copy failed";
-        setTimeout(() => (btnCopy.textContent = "Copy Link"), 1200);
-      }
-    }
-    
     // Button click handler
     btnBrowser.addEventListener("click", function(e) {
       e.preventDefault();
@@ -403,10 +389,6 @@
     btnApp.addEventListener("click", function(e) {
       e.preventDefault();
       openInApp();
-    });
-    btnCopy.addEventListener("click", function(e) {
-      e.preventDefault();
-      copyLink();
     });
   </script>
 </body>
