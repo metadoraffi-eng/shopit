@@ -13,6 +13,23 @@
     gtag('js', new Date());
 
     gtag('config', 'G-Z9XWBVX34H');
+
+    function getRedditSubreddit() {
+      const ref = document.referrer || "";
+      const match = ref.match(/https?:\/\/(www\.|old\.)?reddit\.com\/r\/([^\/?#]+)/i);
+      return match ? match[2].toLowerCase() : null;
+    }
+
+    (function trackRedditReferrer() {
+      if (typeof gtag !== "function") return;
+      const subreddit = getRedditSubreddit();
+      if (!subreddit) return;
+      gtag("event", "reddit_referrer", {
+        subreddit: subreddit,
+        referrer: document.referrer
+      });
+      gtag("set", "user_properties", { reddit_subreddit: subreddit });
+    })();
   </script>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap");
@@ -169,6 +186,12 @@
       transform: translateY(0);
     }
 
+    .btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+      box-shadow: none;
+    }
+
     .btn.secondary {
       background: transparent;
       color: var(--accent-dark);
@@ -316,9 +339,18 @@
       }
     }
     
-    const AFFILIATE_TAG = "bestdeals202f-20";
     const AFFILIATE_REF = "as_li_ss_tl";
-    const fallbackDefault = `https://www.amazon.com/?tag=${AFFILIATE_TAG}&ref=${AFFILIATE_REF}`;
+    const DEFAULT_COUNTRY = "US";
+    const STORE_BY_COUNTRY = {
+      US: { root: "amazon.com", tag: "bestdeals202f-20", language: "en_US" },
+      GB: { root: "amazon.co.uk", tag: "bestdeals0d6c-21", language: "en_GB" },
+      DE: { root: "amazon.de", tag: "bestdeals05ab-21", language: "de_DE" },
+      CA: { root: "amazon.ca", tag: "bestdeal06b4d-20", language: "en_CA" },
+      ES: { root: "amazon.es", tag: "bestdeals01da-21", language: "es_ES" }
+    };
+    const COUNTRY_ALIASES = { UK: "GB" };
+    const GEO_API_URL = "https://ipapi.co/json/";
+    const GEO_TIMEOUT_MS = 1400;
     
     // Allowed Amazon domains (root domains; subdomains allowed)
     const allowedRoots = [
@@ -338,37 +370,105 @@
     ];
     const allowedExact = new Set(["amzn.to"]);
 
+    function resolveCountry(code) {
+      const normalized = (code || "").toUpperCase();
+      const aliased = COUNTRY_ALIASES[normalized] || normalized;
+      if (STORE_BY_COUNTRY[aliased]) {
+        return aliased;
+      }
+      return DEFAULT_COUNTRY;
+    }
+
+    function getStore(code) {
+      return STORE_BY_COUNTRY[resolveCountry(code)];
+    }
+
+    function buildStoreHome(store) {
+      return `https://www.${store.root}/?tag=${store.tag}&ref=${AFFILIATE_REF}`;
+    }
+
+    function buildStoreSearch(store, query) {
+      const url = new URL(`https://www.${store.root}/s`);
+      url.searchParams.set("k", query);
+      if (store.language) {
+        url.searchParams.set("language", store.language);
+      }
+      url.searchParams.set("tag", store.tag);
+      url.searchParams.set("ref", AFFILIATE_REF);
+      return url.toString();
+    }
+
     function isAllowedHost(hostname) {
       const host = hostname.toLowerCase();
       if (allowedExact.has(host)) return true;
       return allowedRoots.some(root => host === root || host.endsWith(`.${root}`));
     }
 
-    // Validate and normalize URL
-    let target = fallbackDefault;
-    try {
-      if (rawUrl) {
-        const url = new URL(rawUrl);
-        if (url.protocol !== "http:" && url.protocol !== "https:") {
-          throw new Error("Invalid protocol");
+    function extractSubdomain(hostname) {
+      for (const root of allowedRoots) {
+        if (hostname === root) return "";
+        if (hostname.endsWith(`.${root}`)) {
+          return hostname.slice(0, hostname.length - root.length - 1);
         }
-        if (!isAllowedHost(url.hostname)) {
-          throw new Error("Host not allowed");
-        }
-        if (!url.searchParams.has("tag")) {
-          url.searchParams.set("tag", AFFILIATE_TAG);
-        }
-        if (!url.searchParams.has("ref")) {
-          url.searchParams.set("ref", AFFILIATE_REF);
-        }
-        target = url.toString();
-      } else if (searchQuery) {
-        const encodedQuery = encodeURIComponent(searchQuery);
-        target = `https://www.amazon.com/s?k=${encodedQuery}&language=en_US&tag=${AFFILIATE_TAG}&ref=${AFFILIATE_REF}`;
       }
-    } catch (e) {
-      console.error("URL parsing error:", e);
-      target = fallbackDefault;
+      return null;
+    }
+
+    function applyStoreRoot(url, storeRoot) {
+      const host = url.hostname.toLowerCase();
+      const subdomain = extractSubdomain(host);
+      if (subdomain === null) return;
+      url.hostname = subdomain ? `${subdomain}.${storeRoot}` : storeRoot;
+    }
+
+    async function detectCountryCode() {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), GEO_TIMEOUT_MS);
+
+      try {
+        const response = await fetch(GEO_API_URL, {
+          signal: controller.signal,
+          cache: "no-store"
+        });
+        if (!response.ok) return null;
+        const data = await response.json();
+        return data && (data.country_code || data.country);
+      } catch (err) {
+        return null;
+      } finally {
+        clearTimeout(timeout);
+      }
+    }
+
+    // Validate and normalize URL
+    let target = buildStoreHome(getStore(DEFAULT_COUNTRY));
+    let resolvedCountry = DEFAULT_COUNTRY;
+
+    function buildTargetForStore(store) {
+      let nextTarget = buildStoreHome(store);
+      try {
+        if (rawUrl) {
+          const url = new URL(rawUrl);
+          if (url.protocol !== "http:" && url.protocol !== "https:") {
+            throw new Error("Invalid protocol");
+          }
+          if (!isAllowedHost(url.hostname)) {
+            throw new Error("Host not allowed");
+          }
+          if (url.hostname.toLowerCase() !== "amzn.to") {
+            applyStoreRoot(url, store.root);
+            url.searchParams.set("tag", store.tag);
+            url.searchParams.set("ref", AFFILIATE_REF);
+          }
+          nextTarget = url.toString();
+        } else if (searchQuery) {
+          nextTarget = buildStoreSearch(store, searchQuery);
+        }
+      } catch (e) {
+        console.error("URL parsing error:", e);
+        nextTarget = buildStoreHome(getStore(DEFAULT_COUNTRY));
+      }
+      return nextTarget;
     }
     
     // Device detection
@@ -385,10 +485,37 @@
     const tip = document.getElementById("tip");
     
     // Display info
-    if (params.get("debug") === "1") {
-      dbg.textContent = target;
+    function updateDebug() {
+      if (params.get("debug") !== "1") return;
+      dbg.textContent = `country=${resolvedCountry}\nstore=${getStore(resolvedCountry).root}\ntarget=${target}`;
       dbg.classList.add("is-visible");
     }
+
+    function setButtonReady() {
+      btnBrowser.disabled = false;
+      btnBrowser.textContent = "Continue to Amazon";
+      message.textContent = "Opens Amazon in your browser.";
+    }
+
+    async function initGeoTarget() {
+      btnBrowser.disabled = true;
+      btnBrowser.textContent = "Checking your location...";
+      message.textContent = "Detecting your region to open the right Amazon store.";
+
+      try {
+        const detected = await detectCountryCode();
+        resolvedCountry = resolveCountry(detected);
+      } catch (err) {
+        resolvedCountry = DEFAULT_COUNTRY;
+      }
+
+      const store = getStore(resolvedCountry);
+      target = buildTargetForStore(store);
+      updateDebug();
+      setButtonReady();
+    }
+
+    initGeoTarget();
 
     if (isIOS) {
       tip.textContent = "Tip: Tap the share icon and choose “Open in Safari”.";
