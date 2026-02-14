@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>Continue to Amazon</title>
+  <title>Check on Amazon</title>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9XWBVX34H"></script>
   <script>
@@ -284,9 +284,9 @@
       </svg>
       Secure handoff
     </div>
-    <h2 id="title">Almost there</h2>
-    <p id="message">Opens Amazon in your browser.</p>
-    <button class="btn" id="btnBrowser">Continue to Amazon</button>
+    <h2 id="title">Check on Amazon</h2>
+    <p id="message">Tap to check this item on Amazon.</p>
+    <button class="btn" id="btnBrowser">Check on Amazon</button>
     <div class="note">We don't store your clicks. This just opens the destination.</div>
     <div class="tip" id="tip">Tip: If you stay inside Reddit, use the menu to open in your browser.</div>
     <small class="debug" id="dbg"></small>
@@ -493,8 +493,8 @@
 
     function setButtonReady() {
       btnBrowser.disabled = false;
-      btnBrowser.textContent = "Continue to Amazon";
-      message.textContent = "Opens Amazon in your browser.";
+      btnBrowser.textContent = "Check on Amazon";
+      message.textContent = "Tap to check this item on Amazon.";
     }
 
     async function initGeoTarget() {
@@ -555,7 +555,7 @@
         
       } else {
         // Desktop
-        title.textContent = "Redirecting…";
+        title.textContent = "Opening Amazon…";
         message.textContent = "Opening in your browser.";
         window.location.href = target;
       }
@@ -572,7 +572,7 @@
         if (typeof gtag === "function") {
           gtag("event", "click_continue_amazon", {
             event_category: "engagement",
-            event_label: "continue_to_amazon",
+            event_label: "check_on_amazon",
             value: 1,
             transport_type: "beacon",
             event_callback: function () {
