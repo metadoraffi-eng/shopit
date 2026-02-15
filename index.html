@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>Check on Amazon</title>
+  <title>Continue to amazon</title>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9XWBVX34H"></script>
   <script>
@@ -206,24 +206,10 @@
       box-shadow: none;
     }
     
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(15, 107, 106, 0.2);
-      border-radius: 50%;
-      border-top-color: var(--teal);
-      animation: spin 0.8s linear infinite;
-    }
-
     .brand-wrap {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
     }
     
     .debug {
@@ -274,7 +260,6 @@
     <div class="header">
       <div class="brand-wrap">
         <div class="brand">ShopIt</div>
-        <span class="spinner" aria-hidden="true"></span>
       </div>
       <div class="pill">Retail handoff</div>
     </div>
@@ -284,9 +269,9 @@
       </svg>
       Secure handoff
     </div>
-    <h2 id="title">Check on Amazon</h2>
+    <h2 id="title">Continue to amazon</h2>
     <p id="message">Tap to check this item on Amazon.</p>
-    <button class="btn" id="btnBrowser">Check on Amazon</button>
+    <button class="btn" id="btnBrowser">Continue to amazon</button>
     <div class="note">We don't store your clicks. This just opens the destination.</div>
     <div class="tip" id="tip">Tip: If you stay inside Reddit, use the menu to open in your browser.</div>
     <small class="debug" id="dbg"></small>
@@ -493,7 +478,7 @@
 
     function setButtonReady() {
       btnBrowser.disabled = false;
-      btnBrowser.textContent = "Check on Amazon";
+      btnBrowser.textContent = "Continue to amazon";
       message.textContent = "Tap to check this item on Amazon.";
     }
 
