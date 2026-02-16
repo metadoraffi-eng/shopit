@@ -638,20 +638,32 @@
           title.textContent = "Opening Amazon...";
           message.textContent = "If it stays in Reddit, use the menu to open in browser.";
           
-          // Single clean redirect
+          // Try intent first
           window.location.href = intent;
+          
+          // Fallback: If intent fails and we're still visible, replace history
+          // This prevents double-back (back to handoff page, then back to reddit)
+          setTimeout(() => {
+            if (document.visibilityState === 'visible') {
+              // Intent failed, still in webview
+              // Replace current page so back button goes directly to Reddit
+              window.location.replace(target);
+            }
+          }, 800);
           
         } else if (isIOS) {
           // iOS: Direct navigation (can't force Safari from in-app browser)
           title.textContent = "Opening Amazon...";
           message.textContent = "Use Share → Open in Safari if it stays in Reddit.";
-          window.location.href = target;
+          
+          // Replace history so back button skips handoff page
+          window.location.replace(target);
           
         } else {
-          // Desktop: Simple navigation
+          // Desktop: Simple navigation with history replacement
           title.textContent = "Redirecting...";
           message.textContent = "Opening Amazon in your browser.";
-          window.location.href = target;
+          window.location.replace(target);
         }
       } catch (err) {
         if (debugMode) console.error("Navigation error:", err);
