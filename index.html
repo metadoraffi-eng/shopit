@@ -418,10 +418,29 @@
       if (rawUrlParam) return null;
       if (!rawQuery) return null;
 
-      if (params.has("q")) return params.get("q");
-      if (params.has("k")) return params.get("k");
-      if (params.has("query")) return params.get("query");
+      // Check common search parameter names
+      const searchParams = [
+        "q",                // Standard query param
+        "k",                // Amazon's search param
+        "query",            // Generic query
+        "search_keywords",  // Amazon product search
+        "keywords",         // Generic keywords
+        "keyword",          // Single keyword
+        "search",           // Generic search
+        "term",             // Search term
+        "search_term"       // Alternative search term
+      ];
 
+      for (const param of searchParams) {
+        if (params.has(param)) {
+          const value = params.get(param);
+          if (value && value.trim()) {
+            return value.trim();
+          }
+        }
+      }
+
+      // Fallback: if no recognized params, treat entire query as search
       let cleaned = rawQuery.replace(/(^|&)debug=1(&|$)/, "$1").replace(/^&|&$/g, "");
       if (!cleaned || cleaned.includes("=")) return null;
       return decodeURIComponent(cleaned.replace(/\+/g, "%20"));
@@ -718,7 +737,9 @@
       console.log("Debug mode enabled");
       console.log("Raw URL:", rawUrl);
       console.log("Search query:", searchQuery);
+      console.log("All params:", Object.fromEntries(params));
       console.log("Device:", { isAndroid, isIOS, isMobile });
+      console.log("Final target:", target);
     }
   </script>
 </body>
