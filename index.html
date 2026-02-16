@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>Continue to amazon</title>
+  <title>Check on Amazon</title>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9XWBVX34H"></script>
   <script>
@@ -37,14 +37,14 @@
     :root {
       --ink: #1d1d1f;
       --muted: #5d616b;
-      --accent: #f25c44;
-      --accent-dark: #cc4a37;
-      --accent-soft: #ffe8e2;
+      --accent: #ff9900;
+      --accent-dark: #e88700;
+      --accent-soft: #fff4e6;
       --teal: #0f6b6a;
       --card: #ffffff;
       --surface: #fff7f2;
-      --outline: rgba(242, 92, 68, 0.18);
-      --shadow: 0 22px 50px rgba(36, 24, 18, 0.15);
+      --outline: rgba(255, 153, 0, 0.18);
+      --shadow: 0 22px 50px rgba(36, 24, 18, 0.12);
     }
 
     * {
@@ -57,7 +57,7 @@
       font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
       padding: 28px 16px;
       text-align: center;
-      background: radial-gradient(1200px 600px at 10% -10%, #ffe0cc 0%, transparent 60%),
+      background: radial-gradient(1200px 600px at 10% -10%, #fff4e6 0%, transparent 60%),
         radial-gradient(900px 700px at 110% 10%, #d5f1ef 0%, transparent 65%),
         linear-gradient(130deg, #fff4eb 0%, #f8fbff 100%);
       min-height: 100vh;
@@ -77,14 +77,14 @@
       height: 320px;
       border-radius: 50%;
       filter: blur(10px);
-      opacity: 0.6;
+      opacity: 0.5;
       z-index: 0;
     }
 
     body::before {
       top: -130px;
       left: -90px;
-      background: #ffd2be;
+      background: #ffd699;
     }
 
     body::after {
@@ -97,10 +97,10 @@
       max-width: 520px;
       width: 100%;
       background: var(--card);
-      padding: 32px 30px 34px;
+      padding: 36px 30px 38px;
       border-radius: 22px;
       box-shadow: var(--shadow);
-      border: 1px solid rgba(242, 92, 68, 0.12);
+      border: 1px solid rgba(255, 153, 0, 0.12);
       position: relative;
       z-index: 1;
       text-align: left;
@@ -108,63 +108,80 @@
 
     .header {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
 
-    .brand {
+    .amazon-logo {
       font-family: "Bricolage Grotesque", "DM Sans", sans-serif;
-      font-size: 20px;
+      font-size: 28px;
       font-weight: 700;
       color: var(--ink);
-      letter-spacing: 0.2px;
+      letter-spacing: -0.5px;
     }
 
-    .pill {
-      font-size: 12px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: var(--surface);
-      border: 1px solid rgba(15, 107, 106, 0.2);
-      color: var(--teal);
-      font-weight: 600;
-    }
-    
-    h2 {
-      font-family: "Bricolage Grotesque", "DM Sans", sans-serif;
-      font-size: 30px;
-      margin-bottom: 12px;
-      font-weight: 700;
-      color: var(--ink);
-    }
-    
-    p {
-      font-size: 16px;
-      color: var(--muted);
-      margin-bottom: 18px;
-      line-height: 1.5;
+    .amazon-logo span {
+      color: var(--accent);
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 12px;
-      padding: 6px 10px;
+      font-size: 13px;
+      padding: 7px 12px;
       border-radius: 10px;
       background: var(--accent-soft);
       color: var(--accent-dark);
       border: 1px solid var(--outline);
-      margin-bottom: 12px;
+      margin-bottom: 16px;
       font-weight: 600;
       width: fit-content;
     }
+    
+    h2 {
+      font-family: "Bricolage Grotesque", "DM Sans", sans-serif;
+      font-size: 32px;
+      margin-bottom: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    
+    p {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
 
+    .benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(15, 107, 106, 0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(15, 107, 106, 0.12);
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .benefit-item svg {
+      flex-shrink: 0;
+    }
     
     .btn {
       font-size: 18px;
-      padding: 16px 32px;
+      padding: 18px 32px;
       width: 100%;
       background: linear-gradient(135deg, var(--accent), var(--accent-dark));
       color: white;
@@ -172,14 +189,18 @@
       border-radius: 14px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 14px 28px rgba(242, 92, 68, 0.22);
-      margin: 6px 0 10px;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 20px rgba(255, 153, 0, 0.3);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
     
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 18px 32px rgba(242, 92, 68, 0.26);
+      box-shadow: 0 12px 28px rgba(255, 153, 0, 0.35);
     }
     
     .btn:active {
@@ -188,44 +209,27 @@
 
     .btn:disabled {
       cursor: not-allowed;
-      opacity: 0.7;
-      box-shadow: none;
+      opacity: 0.6;
+      box-shadow: 0 4px 12px rgba(255, 153, 0, 0.2);
+      transform: none;
     }
 
-    .btn.secondary {
-      background: transparent;
-      color: var(--accent-dark);
-      border: 1px solid rgba(242, 92, 68, 0.3);
-      box-shadow: none;
-    }
-
-    .btn.ghost {
-      background: transparent;
-      color: var(--muted);
-      border: 1px dashed rgba(93, 97, 107, 0.4);
-      box-shadow: none;
-    }
-    
-    .brand-wrap {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .debug {
-      display: none;
+    .trust-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
       margin-top: 20px;
-      word-break: break-all;
-      font-size: 12px;
-      padding: 12px;
-      background: rgba(242, 92, 68, 0.08);
-      border-radius: 8px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(93, 97, 107, 0.12);
+      font-size: 13px;
       color: var(--muted);
-      border: 1px solid rgba(242, 92, 68, 0.15);
+      justify-content: center;
     }
 
-    .debug.is-visible {
-      display: block;
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     
     .tip {
@@ -233,24 +237,49 @@
       font-size: 13px;
       color: var(--muted);
       background: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(242, 92, 68, 0.12);
+      border: 1px solid rgba(255, 153, 0, 0.12);
       border-radius: 12px;
-      padding: 10px 12px;
+      padding: 12px 14px;
+      text-align: center;
     }
 
-    .note {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 8px;
+    .error-state {
+      display: none;
+      background: #fff3f3;
+      border: 1px solid #ffcccb;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 16px;
+      color: #d32f2f;
+      font-size: 14px;
+    }
+
+    .error-state.visible {
+      display: block;
     }
 
     @media (max-width: 520px) {
       .container {
-        padding: 28px 22px 30px;
+        padding: 32px 24px 34px;
       }
 
       h2 {
-        font-size: 26px;
+        font-size: 28px;
+      }
+
+      .btn {
+        padding: 20px 32px;
+        font-size: 17px;
+      }
+
+      .benefits {
+        padding: 14px;
+      }
+
+      .trust-badges {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
       }
     }
   </style>
@@ -258,37 +287,120 @@
 <body>
   <div class="container">
     <div class="header">
-      <div class="brand-wrap">
-        <div class="brand">ShopIt</div>
+      <div class="amazon-logo">
+        <span>amazon</span>
       </div>
-      <div class="pill">Retail handoff</div>
     </div>
+    
     <div class="badge">
       <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M17 10h-1V8a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2Zm-7-2a2 2 0 1 1 4 0v2h-4V8Z" fill="currentColor"/>
       </svg>
-      Secure handoff
+      Secure redirect
     </div>
-    <h2 id="title">Continue to amazon</h2>
-    <p id="message">Tap to check this item on Amazon.</p>
-    <button class="btn" id="btnBrowser">Continue to amazon</button>
-    <div class="note">We don't store your clicks. This just opens the destination.</div>
-    <div class="tip" id="tip">Tip: If you stay inside Reddit, use the menu to open in your browser.</div>
-    <small class="debug" id="dbg"></small>
+
+    <div class="error-state" id="errorState">
+      ⚠️ This link doesn't go to Amazon. Redirecting to Amazon home.
+    </div>
+
+    <h2 id="title">Check Price on Amazon</h2>
+    <p id="message">Compare prices, read reviews, and check Prime delivery options.</p>
+
+    <div class="benefits">
+      <div class="benefit-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="#0f6b6a" stroke-width="2"/>
+          <path d="M8 12l3 3 5-6" stroke="#0f6b6a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>See current price and availability</span>
+      </div>
+      <div class="benefit-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="#0f6b6a" stroke-width="2"/>
+          <path d="M8 12l3 3 5-6" stroke="#0f6b6a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Read verified customer reviews</span>
+      </div>
+      <div class="benefit-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="#0f6b6a" stroke-width="2"/>
+          <path d="M8 12l3 3 5-6" stroke="#0f6b6a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Check Prime shipping options</span>
+      </div>
+    </div>
+
+    <button class="btn" id="btnBrowser">
+      <span>View on Amazon</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="trust-badges">
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Secure connection</span>
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+          <line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span>No tracking</span>
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Amazon partner</span>
+      </div>
+    </div>
+
+    <div class="tip" id="tip">Opening in your browser for the best experience</div>
   </div>
+
   <noscript>
-    <p style="color:#fff; text-align:center; margin-top:20px;">
-      JavaScript is required. Use this link:
-      <a href="https://www.amazon.com/" style="color:#fff; text-decoration:underline;">Open Amazon</a>
-    </p>
+    <div style="color:#fff; text-align:center; margin-top:20px; background: rgba(0,0,0,0.8); padding: 20px; border-radius: 12px;">
+      <p style="margin-bottom: 10px;">JavaScript is required for geo-detection.</p>
+      <a href="https://www.amazon.com/" style="color:#ff9900; text-decoration:underline; font-weight: 600;">Open Amazon</a>
+    </div>
   </noscript>
 
   <script>
-    // Get URL parameter
+    // Configuration
+    const AFFILIATE_REF = "as_li_ss_tl";
+    const DEFAULT_COUNTRY = "US";
+    const STORE_BY_COUNTRY = {
+      US: { root: "amazon.com", tag: "bestdeals202f-20", language: "en_US" },
+      GB: { root: "amazon.co.uk", tag: "bestdeals0d6c-21", language: "en_GB" },
+      DE: { root: "amazon.de", tag: "bestdeals05ab-21", language: "de_DE" },
+      CA: { root: "amazon.ca", tag: "bestdeal06b4d-20", language: "en_CA" },
+      ES: { root: "amazon.es", tag: "bestdeals01da-21", language: "es_ES" }
+    };
+    const COUNTRY_ALIASES = { UK: "GB" };
+    const GEO_API_URL = "https://ipapi.co/json/";
+    const GEO_TIMEOUT_MS = 1800;
+    const GEO_MAX_WAIT_MS = 2500;
+    
+    // Allowed Amazon domains
+    const allowedRoots = [
+      "amazon.com", "amazon.co.uk", "amazon.de", "amazon.fr", "amazon.it",
+      "amazon.es", "amazon.ca", "amazon.com.mx", "amazon.com.br",
+      "amazon.in", "amazon.cn", "amazon.co.jp", "amazon.com.au"
+    ];
+    const allowedExact = new Set(["amzn.to", "amzn.com"]);
+
+    // Get URL parameters
     const params = new URLSearchParams(location.search);
     const rawUrlParam = params.get("url");
     const rawQuery = (location.search || "").replace(/^\?/, "");
+    const debugMode = params.get("debug") === "1";
 
+    // Utility functions
     function getRawUrlFromQueryRemainder() {
       const search = location.search || "";
       const marker = "url=";
@@ -323,45 +435,11 @@
         rawUrl = remainder;
       }
     }
-    
-    const AFFILIATE_REF = "as_li_ss_tl";
-    const DEFAULT_COUNTRY = "US";
-    const STORE_BY_COUNTRY = {
-      US: { root: "amazon.com", tag: "bestdeals202f-20", language: "en_US" },
-      GB: { root: "amazon.co.uk", tag: "bestdeals0d6c-21", language: "en_GB" },
-      DE: { root: "amazon.de", tag: "bestdeals05ab-21", language: "de_DE" },
-      CA: { root: "amazon.ca", tag: "bestdeal06b4d-20", language: "en_CA" },
-      ES: { root: "amazon.es", tag: "bestdeals01da-21", language: "es_ES" }
-    };
-    const COUNTRY_ALIASES = { UK: "GB" };
-    const GEO_API_URL = "https://ipapi.co/json/";
-    const GEO_TIMEOUT_MS = 1400;
-    
-    // Allowed Amazon domains (root domains; subdomains allowed)
-    const allowedRoots = [
-      "amazon.com",
-      "amazon.co.uk",
-      "amazon.de",
-      "amazon.fr",
-      "amazon.it",
-      "amazon.es",
-      "amazon.ca",
-      "amazon.com.mx",
-      "amazon.com.br",
-      "amazon.in",
-      "amazon.cn",
-      "amazon.co.jp",
-      "amazon.com.au"
-    ];
-    const allowedExact = new Set(["amzn.to"]);
 
     function resolveCountry(code) {
       const normalized = (code || "").toUpperCase();
       const aliased = COUNTRY_ALIASES[normalized] || normalized;
-      if (STORE_BY_COUNTRY[aliased]) {
-        return aliased;
-      }
-      return DEFAULT_COUNTRY;
+      return STORE_BY_COUNTRY[aliased] ? aliased : DEFAULT_COUNTRY;
     }
 
     function getStore(code) {
@@ -419,18 +497,17 @@
         const data = await response.json();
         return data && (data.country_code || data.country);
       } catch (err) {
+        if (debugMode) console.warn("Geo detection failed:", err);
         return null;
       } finally {
         clearTimeout(timeout);
       }
     }
 
-    // Validate and normalize URL
-    let target = buildStoreHome(getStore(DEFAULT_COUNTRY));
-    let resolvedCountry = DEFAULT_COUNTRY;
-
     function buildTargetForStore(store) {
       let nextTarget = buildStoreHome(store);
+      let hasError = false;
+
       try {
         if (rawUrl) {
           const url = new URL(rawUrl);
@@ -440,9 +517,16 @@
           if (!isAllowedHost(url.hostname)) {
             throw new Error("Host not allowed");
           }
-          if (url.hostname.toLowerCase() !== "amzn.to") {
+          
+          // Don't modify short links
+          if (url.hostname.toLowerCase() !== "amzn.to" && url.hostname.toLowerCase() !== "amzn.com") {
             applyStoreRoot(url, store.root);
-            url.searchParams.set("tag", store.tag);
+            
+            // Only add tag if it doesn't exist or if it's not our tag
+            const existingTag = url.searchParams.get("tag");
+            if (!existingTag || !existingTag.includes("bestdeal")) {
+              url.searchParams.set("tag", store.tag);
+            }
             url.searchParams.set("ref", AFFILIATE_REF);
           }
           nextTarget = url.toString();
@@ -450,10 +534,12 @@
           nextTarget = buildStoreSearch(store, searchQuery);
         }
       } catch (e) {
-        console.error("URL parsing error:", e);
+        if (debugMode) console.error("URL parsing error:", e);
+        hasError = true;
         nextTarget = buildStoreHome(getStore(DEFAULT_COUNTRY));
       }
-      return nextTarget;
+
+      return { target: nextTarget, hasError };
     }
     
     // Device detection
@@ -462,91 +548,119 @@
     const isIOS = /iphone|ipad|ipod/i.test(ua);
     const isMobile = isAndroid || isIOS;
     
-    // Get DOM elements
+    // DOM elements
     const btnBrowser = document.getElementById("btnBrowser");
-    const dbg = document.getElementById("dbg");
     const title = document.getElementById("title");
     const message = document.getElementById("message");
     const tip = document.getElementById("tip");
+    const errorState = document.getElementById("errorState");
     
-    // Display info
-    function updateDebug() {
-      if (params.get("debug") !== "1") return;
-      dbg.textContent = `country=${resolvedCountry}\nstore=${getStore(resolvedCountry).root}\ntarget=${target}`;
-      dbg.classList.add("is-visible");
-    }
+    // State
+    let resolvedCountry = DEFAULT_COUNTRY;
+    let target = buildStoreHome(getStore(DEFAULT_COUNTRY));
+    let isReady = false;
 
-    function setButtonReady() {
+    // Initialize with default country immediately (no waiting!)
+    function initializeDefault() {
+      const store = getStore(DEFAULT_COUNTRY);
+      const result = buildTargetForStore(store);
+      target = result.target;
+      
+      if (result.hasError) {
+        errorState.classList.add("visible");
+        title.textContent = "Invalid Link";
+        message.textContent = "This link doesn't go to Amazon. Taking you to Amazon home instead.";
+      }
+
       btnBrowser.disabled = false;
-      btnBrowser.textContent = "Continue to amazon";
-      message.textContent = "Tap to check this item on Amazon.";
+      isReady = true;
+
+      if (debugMode) {
+        console.log("Initial target:", target);
+        console.log("Country:", resolvedCountry);
+      }
     }
 
-    async function initGeoTarget() {
-      btnBrowser.disabled = true;
-      btnBrowser.textContent = "Checking your location...";
-      message.textContent = "Detecting your region to open the right Amazon store.";
+    // Update target silently in background
+    async function updateGeoTarget() {
+      const maxWaitTimeout = setTimeout(() => {
+        if (debugMode) console.log("Geo detection timed out, using default");
+      }, GEO_MAX_WAIT_MS);
 
       try {
         const detected = await detectCountryCode();
-        resolvedCountry = resolveCountry(detected);
+        if (detected) {
+          resolvedCountry = resolveCountry(detected);
+          const store = getStore(resolvedCountry);
+          const result = buildTargetForStore(store);
+          target = result.target;
+          
+          if (debugMode) {
+            console.log("Updated target:", target);
+            console.log("Detected country:", resolvedCountry);
+          }
+        }
       } catch (err) {
-        resolvedCountry = DEFAULT_COUNTRY;
+        if (debugMode) console.warn("Geo update failed:", err);
+      } finally {
+        clearTimeout(maxWaitTimeout);
       }
-
-      const store = getStore(resolvedCountry);
-      target = buildTargetForStore(store);
-      updateDebug();
-      setButtonReady();
     }
 
-    initGeoTarget();
+    // Initialize immediately
+    initializeDefault();
+    
+    // Update in background
+    updateGeoTarget();
 
+    // Set platform-specific tips
     if (isIOS) {
-      tip.textContent = "Tip: Tap the share icon and choose “Open in Safari”.";
+      tip.textContent = "Tip: If it stays in Reddit, tap Share → Open in Safari";
     } else if (isAndroid) {
-      tip.textContent = "Tip: If Amazon opens the app, you can change “Open by default” in Android settings.";
+      tip.textContent = "Tip: If it stays in Reddit, tap ⋮ menu → Open in browser";
     } else {
-      tip.textContent = "Tip: If a popup is blocked, allow it for this page.";
+      tip.textContent = "Opening in your browser for the best experience";
     }
     
-    // Open in external browser
+    // Open in browser with proper handling
     function openInBrowser() {
-      if (isAndroid) {
-        // Android: open default external browser (avoid in-app webview)
-        const url = new URL(target);
-        const intent = `intent://${url.host}${url.pathname}${url.search}#Intent;scheme=${url.protocol.replace(":", "")};action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;S.browser_fallback_url=${encodeURIComponent(target)};end`;
+      if (!isReady || !target) {
+        if (debugMode) console.error("Not ready or no target");
+        return;
+      }
 
-        title.textContent = "Opening your browser…";
-        message.textContent = "If it stays in Reddit, tap ⋮ and choose “Open in browser”.";
-
-        // Try intent in a new tab first; then fall back to intent navigation.
-        const opened = window.open(intent, "_blank", "noopener");
-        if (!opened) {
+      try {
+        if (isAndroid) {
+          // Android: Use intent to force external browser
+          const url = new URL(target);
+          const intent = `intent://${url.host}${url.pathname}${url.search}#Intent;scheme=https;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;S.browser_fallback_url=${encodeURIComponent(target)};end`;
+          
+          title.textContent = "Opening Amazon...";
+          message.textContent = "If it stays in Reddit, use the menu to open in browser.";
+          
+          // Single clean redirect
           window.location.href = intent;
+          
+        } else if (isIOS) {
+          // iOS: Direct navigation (can't force Safari from in-app browser)
+          title.textContent = "Opening Amazon...";
+          message.textContent = "Use Share → Open in Safari if it stays in Reddit.";
+          window.location.href = target;
+          
+        } else {
+          // Desktop: Simple navigation
+          title.textContent = "Redirecting...";
+          message.textContent = "Opening Amazon in your browser.";
+          window.location.href = target;
         }
-
-        // If still visible, try a direct new-tab open as a last resort.
-        setTimeout(() => {
-          if (document.visibilityState === "visible") {
-            window.open(target, "_blank", "noopener");
-          }
-        }, 800);
-      } else if (isIOS) {
-        // iOS: cannot force external Safari from in-app browsers
-        title.textContent = "Open in Safari";
-        message.textContent = "Tap the share icon and choose “Open in Safari” if it stays in Reddit.";
-        window.location.href = target;
-        
-      } else {
-        // Desktop
-        title.textContent = "Opening Amazon…";
-        message.textContent = "Opening in your browser.";
+      } catch (err) {
+        if (debugMode) console.error("Navigation error:", err);
+        // Fallback
         window.location.href = target;
       }
     }
 
-    // Button click handler
+    // Button click handler with analytics
     btnBrowser.addEventListener("click", function (e) {
       e.preventDefault();
 
@@ -555,9 +669,10 @@
 
       try {
         if (typeof gtag === "function") {
-          gtag("event", "click_continue_amazon", {
+          gtag("event", "click_view_amazon", {
             event_category: "engagement",
-            event_label: "check_on_amazon",
+            event_label: "view_on_amazon",
+            country: resolvedCountry,
             value: 1,
             transport_type: "beacon",
             event_callback: function () {
@@ -568,21 +683,31 @@
             }
           });
 
+          // Failsafe timeout
           setTimeout(function () {
             if (!fired) {
               fired = true;
               go();
             }
-          }, 250);
+          }, 300);
 
           return;
         }
       } catch (err) {
-        console.warn("gtag event failed:", err);
+        if (debugMode) console.warn("gtag event failed:", err);
       }
 
+      // Direct execution if gtag not available
       go();
     });
+
+    // Debug info in console
+    if (debugMode) {
+      console.log("Debug mode enabled");
+      console.log("Raw URL:", rawUrl);
+      console.log("Search query:", searchQuery);
+      console.log("Device:", { isAndroid, isIOS, isMobile });
+    }
   </script>
 </body>
 </html>
